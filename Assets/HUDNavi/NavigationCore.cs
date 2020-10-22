@@ -76,6 +76,8 @@ namespace HUDNavi
                 {
                     if (item.MappedHUDPoint.gameObject.activeSelf == true)
                         item.MappedHUDPoint.gameObject.SetActive(false);
+                    if (item.MappedHUDArrow.gameObject.activeSelf == true)
+                        item.MappedHUDArrow.gameObject.SetActive(false);
                     continue;
                 }
                 else
