@@ -14339,6 +14339,11 @@ MonoBehaviour:
   DistancePrecision: 0
   DistanceIntensity: 1
   DistanceSI: M
+  ArrowAreaPadding:
+    Up: 300
+    Down: 100
+    Left: 100
+    Right: 100
 --- !u!1 &968736545
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,11 +16,38 @@ namespace HUDNavi
         public int DistancePrecision = 0;
         public float DistanceIntensity = 1;
         public string DistanceSI = "M";
+        public Thickness ArrowAreaPadding;
         [Serializable]
         public class PresetNaviPoint
         {
             public string ID;
             public NavigationPoint Point;
+        }
+        [Serializable]
+        public class Thickness
+        {
+            public float Up=100;
+            public float Down = 100;
+            public float Left = 100;
+            public float Right = 100;
+            public Thickness()
+            {
+                
+            }
+            public Thickness(float Up,float Down,float Left,float Right)
+            {
+                this.Up = Up;
+                this.Down = Down;
+                this.Left = Left;
+                this.Right = Right;
+            }
+            public Thickness(Vector4 vector4)
+            {
+                Up = vector4.w;
+                Down = vector4.x;
+                Left = vector4.y;
+                Right = vector4.z;
+            }
         }
         void Start()
         {
@@ -143,8 +170,8 @@ namespace HUDNavi
                             }
                             ActualPosition += RelateSystem2;
                             ActualPosition.Scale(new Vector3(HolderW, HolderH, 0));
-                            ActualPosition.x = Mathf.Clamp(ActualPosition.x, 100, HolderW - 100);
-                            ActualPosition.y = Mathf.Clamp(ActualPosition.y, 50, HolderH - 50);
+                            ActualPosition.x = Mathf.Clamp(ActualPosition.x, ArrowAreaPadding.Left, HolderW - ArrowAreaPadding.Right);
+                            ActualPosition.y = Mathf.Clamp(ActualPosition.y, ArrowAreaPadding.Down, HolderH - ArrowAreaPadding.Up);
                             item.MappedHUDArrow.transform.position = ActualPosition;
 
                         }
