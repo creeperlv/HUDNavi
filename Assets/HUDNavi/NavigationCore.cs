@@ -14,6 +14,7 @@ namespace HUDNavi
         public List<PresetNaviPoint> OffScreenPresets;
         public GameObject HUDPointsHolder;
         public int DistancePrecision = 0;
+        public float MaxPointDistance = -1;
         public float DistanceIntensity = 1;
         public string DistanceSI = "M";
         public Thickness ArrowAreaPadding;
@@ -104,7 +105,29 @@ namespace HUDNavi
                         if (item.MappedHUDPoint.Label != null)
                             item.MappedHUDArrow.Label.text = item.label;
                     }
-                    if (item.Show == false)
+                    bool willShow = true;
+                    if (MaxPointDistance != -1)
+                    {
+                        if (item.OverrideMaxShowDistance != -2)
+                        {
+                            if (item.OverrideMaxShowDistance == -1)
+                            {
+                                if ((item.transform.position - TargetCamera.transform.position).magnitude > MaxPointDistance)
+                                {
+                                    willShow = false;
+                                }
+                            }
+                            else
+                            {
+                                if ((item.transform.position - TargetCamera.transform.position).magnitude > item.OverrideMaxShowDistance)
+                                {
+                                    willShow = false;
+                                }
+                            }
+                        }
+                        else willShow = true;
+                    }
+                    if (item.Show == false || willShow == false)
                     {
                         if (item.MappedHUDPoint.gameObject.activeSelf == true)
                             item.MappedHUDPoint.gameObject.SetActive(false);
@@ -143,7 +166,7 @@ namespace HUDNavi
                                     item.MappedHUDPoint.gameObject.SetActive(false);
                                 if (item.MappedHUDArrow.gameObject.activeSelf == false && item.WillShowOffScreenPoint == true)
                                     item.MappedHUDArrow.gameObject.SetActive(true);
-                                if(item.WillShowOffScreenPoint == true)
+                                if (item.WillShowOffScreenPoint == true)
                                 {
                                     {
                                         var t = HUDPointsHolder.transform as RectTransform;
