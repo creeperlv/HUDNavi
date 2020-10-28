@@ -68,6 +68,7 @@ namespace HUDNavi
             point.Distance.text = $"{l.ToString($"f{DistancePrecision}")} {DistanceSI}";
         }
         public bool ShowPoints = true;
+        public bool ShowArrows = true;
         bool Disabled = false;
         void Update()
         {
@@ -135,58 +136,72 @@ namespace HUDNavi
                         }
                         else
                         {
-                            if (item.MappedHUDPoint.gameObject.activeSelf == true)
-                                item.MappedHUDPoint.gameObject.SetActive(false);
-                            if (item.MappedHUDArrow.gameObject.activeSelf == false && item.WillShowOffScreenPoint == true)
-                                item.MappedHUDArrow.gameObject.SetActive(true);
-
+                            if (ShowArrows == true)
                             {
-                                var t = HUDPointsHolder.transform as RectTransform;
-                                var HolderW = t.rect.width;
-                                var HolderH = t.rect.height;
-                                var location = v;
-                                if (location.z < 0) location *= -1;
 
-                                var RelateSystem2 = new Vector3(.5f, .5f, 0);//Center of the screen.
-                                location -= RelateSystem2;//Convert to relate to center of the screen.
-                                float Angle = Mathf.Atan2(location.y, location.x);//Angle of center.
+                                if (item.MappedHUDPoint.gameObject.activeSelf == true)
+                                    item.MappedHUDPoint.gameObject.SetActive(false);
+                                if (item.MappedHUDArrow.gameObject.activeSelf == false && item.WillShowOffScreenPoint == true)
+                                    item.MappedHUDArrow.gameObject.SetActive(true);
+                                if(item.WillShowOffScreenPoint == true)
                                 {
-                                    var r = item.MappedHUDArrow.Icon.transform.rotation;
-                                    r.eulerAngles = new Vector3(0, 0, Angle * Mathf.Rad2Deg);
-                                    item.MappedHUDArrow.Icon.transform.rotation = r;
-                                }
-                                Vector3 ActualPosition;
-                                if (location.x > 0)
-                                {
-                                    ActualPosition = new Vector3(RelateSystem2.x, location.y, 0);
-                                }
-                                else
-                                {
-                                    ActualPosition = new Vector3(-RelateSystem2.x, location.y, 0);
-                                }
-                                if (location.y > RelateSystem2.y)
-                                {
-                                    ActualPosition = new Vector3(location.x, RelateSystem2.y, 0);
-                                }
-                                else if (location.y < -RelateSystem2.y)
-                                {
-                                    ActualPosition = new Vector3(location.x, -RelateSystem2.y, 0);
-                                }
-                                ActualPosition += RelateSystem2;
-                                ActualPosition.Scale(new Vector3(HolderW, HolderH, 0));
-                                ActualPosition.x = Mathf.Clamp(ActualPosition.x, ArrowAreaPadding.Left, HolderW - ArrowAreaPadding.Right);
-                                ActualPosition.y = Mathf.Clamp(ActualPosition.y, ArrowAreaPadding.Down, HolderH - ArrowAreaPadding.Up);
-                                item.MappedHUDArrow.transform.position = ActualPosition;
+                                    {
+                                        var t = HUDPointsHolder.transform as RectTransform;
+                                        var HolderW = t.rect.width;
+                                        var HolderH = t.rect.height;
+                                        var location = v;
+                                        if (location.z < 0) location *= -1;
 
-                            }
-                            if (item.ShowDistance)
-                            {
-                                //Deal with label and distance.
-                                UpdateDistance(item, item.MappedHUDArrow);
+                                        var RelateSystem2 = new Vector3(.5f, .5f, 0);//Center of the screen.
+                                        location -= RelateSystem2;//Convert to relate to center of the screen.
+                                        float Angle = Mathf.Atan2(location.y, location.x);//Angle of center.
+                                        {
+                                            var r = item.MappedHUDArrow.Icon.transform.rotation;
+                                            r.eulerAngles = new Vector3(0, 0, Angle * Mathf.Rad2Deg);
+                                            item.MappedHUDArrow.Icon.transform.rotation = r;
+                                        }
+                                        Vector3 ActualPosition;
+                                        if (location.x > 0)
+                                        {
+                                            ActualPosition = new Vector3(RelateSystem2.x, location.y, 0);
+                                        }
+                                        else
+                                        {
+                                            ActualPosition = new Vector3(-RelateSystem2.x, location.y, 0);
+                                        }
+                                        if (location.y > RelateSystem2.y)
+                                        {
+                                            ActualPosition = new Vector3(location.x, RelateSystem2.y, 0);
+                                        }
+                                        else if (location.y < -RelateSystem2.y)
+                                        {
+                                            ActualPosition = new Vector3(location.x, -RelateSystem2.y, 0);
+                                        }
+                                        ActualPosition += RelateSystem2;
+                                        ActualPosition.Scale(new Vector3(HolderW, HolderH, 0));
+                                        ActualPosition.x = Mathf.Clamp(ActualPosition.x, ArrowAreaPadding.Left, HolderW - ArrowAreaPadding.Right);
+                                        ActualPosition.y = Mathf.Clamp(ActualPosition.y, ArrowAreaPadding.Down, HolderH - ArrowAreaPadding.Up);
+                                        item.MappedHUDArrow.transform.position = ActualPosition;
+
+                                    }
+                                    if (item.ShowDistance)
+                                    {
+                                        //Deal with label and distance.
+                                        UpdateDistance(item, item.MappedHUDArrow);
+                                    }
+                                    else
+                                    {
+                                        if (item.MappedHUDArrow.Distance.gameObject.activeSelf) item.MappedHUDArrow.Distance.gameObject.SetActive(false);
+                                    }
+                                }
                             }
                             else
                             {
-                                if (item.MappedHUDArrow.Distance.gameObject.activeSelf) item.MappedHUDArrow.Distance.gameObject.SetActive(false);
+
+                                if (item.MappedHUDPoint.gameObject.activeSelf == true)
+                                    item.MappedHUDPoint.gameObject.SetActive(false);
+                                if (item.MappedHUDArrow.gameObject.activeSelf == true)
+                                    item.MappedHUDArrow.gameObject.SetActive(false);
                             }
                         }
                     }
