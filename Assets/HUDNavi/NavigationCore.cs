@@ -18,6 +18,7 @@ namespace HUDNavi
         public float DistanceIntensity = 1;
         public string DistanceSI = "M";
         public Thickness ArrowAreaPadding;
+        List<string> CullingIDs = new List<string>();
         [Serializable]
         public class PresetNaviPoint
         {
@@ -49,6 +50,15 @@ namespace HUDNavi
                 Left = vector4.y;
                 Right = vector4.z;
             }
+        }
+        public void CullNaviPoint(string name)
+        {
+            if (CullingIDs.Contains(name)) return;
+            CullingIDs.Add(name);
+        }
+        public void UncullNaviPoint(string name)
+        {
+            if (CullingIDs.Contains(name)) CullingIDs.Remove(name);
         }
         void Start()
         {
@@ -126,6 +136,17 @@ namespace HUDNavi
                             }
                         }
                         else willShow = true;
+                    }
+                    if(willShow == true)
+                    {
+                        foreach (var CulledID in CullingIDs)
+                        {
+                            if (item.TargetNavigationPointType == CulledID)
+                            {
+                                willShow = false;
+                                break;
+                            }
+                        }
                     }
                     if (item.Show == false || willShow == false)
                     {
