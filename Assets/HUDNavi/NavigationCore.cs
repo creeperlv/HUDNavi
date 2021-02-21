@@ -137,7 +137,21 @@ namespace HUDNavi
                         }
                         else willShow = true;
                     }
-                    if(willShow == true)
+                    else
+                    {
+                        if (item.OverrideMaxShowDistance != -2)
+                        {
+                            if (item.OverrideMaxShowDistance != -1)
+                            {
+                                if ((item.transform.position - TargetCamera.transform.position).magnitude > item.OverrideMaxShowDistance)
+                                {
+                                    willShow = false;
+                                }
+                            }
+                        }
+                        else willShow = true;
+                    }
+                    if (willShow == true)
                     {
                         foreach (var CulledID in CullingIDs)
                         {
