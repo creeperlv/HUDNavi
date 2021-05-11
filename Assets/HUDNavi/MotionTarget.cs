@@ -5,12 +5,16 @@ namespace HUDNavi
 {
     public class MotionTarget : MonoBehaviour
     {
+        [HideInInspector]
+        public GameObject RadarPoint;
         public bool isDetectable = false;
         public bool isAlwaysDetected = false;
         [HideInInspector]
         public bool isMoving = false;
-        public int IFFGroup = 0;
-        // Start is called before the first frame update
+        public int RadarIconType = 0;
+
+
+        bool isAdded = false;
         void Start()
         {
 
@@ -19,28 +23,40 @@ namespace HUDNavi
         // Update is called once per frame
         void Update()
         {
-            if (isDetectable == false)
+            if (isAdded == false)
             {
-                if (isMoving == true) isMoving = false;
+                if (RadarCore.CurrentRadar != null)
+                {
+                    RadarCore.CurrentRadar.Targets.Add(this);
+                    isAdded = true;
+                }
             }
             else
             {
-                if (isAlwaysDetected == true)
+
+                if (isDetectable == false)
                 {
-                    if (isMoving == false) isMoving = true;
+                    if (isMoving == true) isMoving = false;
                 }
                 else
                 {
-                    var length = (LastPosition - transform.position).magnitude;
-                    if (length != 0)
+                    if (isAlwaysDetected == true)
                     {
                         if (isMoving == false) isMoving = true;
                     }
                     else
                     {
-                        if (isMoving == true) isMoving = false;
+                        var length = (LastPosition - transform.position).magnitude;
+                        if (length != 0)
+                        {
+                            if (isMoving == false) isMoving = true;
+                        }
+                        else
+                        {
+                            if (isMoving == true) isMoving = false;
+                        }
+                        LastPosition = transform.position;
                     }
-                    LastPosition = transform.position;
                 }
             }
         }
