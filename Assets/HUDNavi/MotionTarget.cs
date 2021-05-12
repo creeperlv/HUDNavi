@@ -9,6 +9,7 @@ namespace HUDNavi
         public GameObject RadarPoint;
         public bool isDetectable = false;
         public bool isAlwaysDetected = false;
+        public bool ShowBeyoundBoundary = false;
         [HideInInspector]
         public bool isMoving = false;
         public int RadarIconType = 0;
@@ -20,6 +21,12 @@ namespace HUDNavi
 
         }
         Vector3 LastPosition;
+
+        private void OnDestroy()
+        {
+            RadarCore.CurrentRadar.Targets.Remove(this);
+            GameObject.Destroy(RadarPoint);
+        }
         // Update is called once per frame
         void Update()
         {
@@ -27,7 +34,7 @@ namespace HUDNavi
             {
                 if (RadarCore.CurrentRadar != null)
                 {
-                    RadarCore.CurrentRadar.Targets.Add(this);
+                    RadarCore.CurrentRadar.Add(this);
                     isAdded = true;
                 }
             }
