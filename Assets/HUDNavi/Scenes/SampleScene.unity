@@ -37890,6 +37890,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194230}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -38007,6 +38008,24 @@ MonoBehaviour:
     Right: 100
   ShowPoints: 1
   ShowArrows: 1
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bca98cf4abdd724ba4ecb987c5d82ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RadarPoint: {fileID: 0}
+  isDetectable: 1
+  isAlwaysDetected: 1
+  ShowBeyoundBoundary: 0
+  isMoving: 0
+  RadarIconType: 0
 --- !u!1 &965809448
 GameObject:
   m_ObjectHideFlags: 0
@@ -65362,7 +65381,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1723888665}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2.75, y: 0, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 565333414}
