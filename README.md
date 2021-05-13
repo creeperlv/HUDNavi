@@ -30,7 +30,16 @@ The `Motion Radar` aims on provide a radar similar to the one in `Halo CE`.
 
 Currently, it will not in a fast development pace, it will be updated when I need some new features in my personal Unity3D games.
 
-# License?
+# Screenshot
+
+
+![Screenshot of sample scene](/DocumentAssets/SampleScreenshot.png)
+
+Abrove is a screen shot of the sample scene showing almost all features.
+
+**Note:** The crosshair in the middle of the screen is not a part of features that `HUDNavi` aims on.
+
+# License
 
 Codes are licensed under `the MIT License`.
 
