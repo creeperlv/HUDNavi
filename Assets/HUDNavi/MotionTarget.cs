@@ -14,6 +14,12 @@ namespace HUDNavi
         public bool isMoving = false;
         public int RadarIconType = 0;
 
+        [HideInInspector]
+        public Vector3 PositionS;
+        [HideInInspector]
+        public bool RadarPointActive;
+        [HideInInspector]
+        public bool Safe_isActiveAndEnabled;
 
         bool isAdded = false;
         void Start()
@@ -27,9 +33,14 @@ namespace HUDNavi
             RadarCore.CurrentRadar.Targets.Remove(this);
             GameObject.Destroy(RadarPoint);
         }
+        private void OnDisable()
+        {
+            Safe_isActiveAndEnabled = isActiveAndEnabled;
+        }
         // Update is called once per frame
         void Update()
         {
+            Safe_isActiveAndEnabled = isActiveAndEnabled;
             if (isAdded == false)
             {
                 if (RadarCore.CurrentRadar != null)
@@ -40,7 +51,8 @@ namespace HUDNavi
             }
             else
             {
-
+                PositionS = transform.position;
+                RadarPointActive = RadarPoint.gameObject.activeSelf;
                 if (isDetectable == false)
                 {
                     if (isMoving == true) isMoving = false;
