@@ -9,7 +9,8 @@ namespace HUDNavi
         public NavigationPoint MappedHUDPoint = null;
         [HideInInspector]
         public NavigationPoint MappedHUDArrow = null;
-        bool isAdded = false;
+        [HideInInspector]
+        public bool isAdded = false;
         public bool Show = true;
         public string label;
         public bool ShowDistance;
@@ -17,6 +18,12 @@ namespace HUDNavi
         public bool WillShowOffScreenPoint = false;
         [Header("This will override MaxPointDistance, -2 means always show, -1 means no modify.")]
         public float OverrideMaxShowDistance = -1;
+        [HideInInspector]
+        public Vector3 SafePos;
+        [HideInInspector]
+        public bool SafeMappedHUDPointActive = false;
+        [HideInInspector]
+        public bool SafeMappedHUDArrowActive = false;
         // Update is called once per frame
         void Update()
         {
@@ -24,14 +31,23 @@ namespace HUDNavi
             {
                 if (NavigationCore.CurrentCore != null)
                 {
-                    NavigationCore.CurrentCore.Targets.Add(this);
-                    isAdded = true;
+                    //lock (NavigationCore.CurrentCore.Targets)
+                    {
+                        NavigationCore.CurrentCore.Init(this);
+
+                    }
                 }
             }
+            if (MappedHUDPoint != null)
+                SafeMappedHUDPointActive = MappedHUDPoint.gameObject.activeSelf;
+            if (MappedHUDArrow != null)
+                SafeMappedHUDArrowActive = MappedHUDArrow.gameObject.activeSelf;
+            SafePos = transform.position;
         }
         private void OnDestroy()
         {
-            NavigationCore.CurrentCore.Targets.Remove(this);
+            if (NavigationCore.CurrentCore != null)
+                NavigationCore.CurrentCore.Targets.Remove(this);
             if (MappedHUDArrow != null) GameObject.Destroy(MappedHUDArrow.gameObject);
             if (MappedHUDPoint != null) GameObject.Destroy(MappedHUDPoint.gameObject);
         }

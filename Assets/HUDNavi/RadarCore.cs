@@ -10,6 +10,7 @@ namespace HUDNavi
     public class RadarCore : MonoBehaviour
     {
         public static RadarCore CurrentRadar;
+        public bool useMultiThread;
         public GameObject Detector;
         public List<RadarDot> dots = new List<RadarDot>();
         public float RadarRadius = 50;
@@ -31,6 +32,7 @@ namespace HUDNavi
         {
             CurrentRadar = this;
             yield return null;
+            if(useMultiThread)
             if (Dispatcher.Inited())
             {
                 UseSeparatedThread = true;
