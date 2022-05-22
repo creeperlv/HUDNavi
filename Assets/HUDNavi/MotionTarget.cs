@@ -41,6 +41,10 @@ namespace HUDNavi
         void Update()
         {
             Safe_isActiveAndEnabled = isActiveAndEnabled;
+            if (RadarCore.CurrentRadar == null)
+            {
+                isAdded = false;
+            }
             if (isAdded == false)
             {
                 if (RadarCore.CurrentRadar != null)
@@ -49,7 +53,8 @@ namespace HUDNavi
                     isAdded = true;
                 }
             }
-            else
+
+            else if (RadarPoint != null)
             {
                 PositionS = transform.position;
                 RadarPointActive = RadarPoint.gameObject.activeSelf;

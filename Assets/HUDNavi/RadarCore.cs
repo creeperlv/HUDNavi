@@ -129,9 +129,18 @@ namespace HUDNavi
             target.RadarPoint = GameObject.Instantiate(d, RadarObject.transform);
             target.RadarPoint.GetComponent<RadarPoint>().color = dots[target.RadarIconType].Color;
         }
-
+        int Cycle = 100;
+        int _Cycle = 0;
         void Update()
         {
+            if (_Cycle > Cycle)
+            {
+                Targets.Remove(null);
+                _Cycle = 0;
+            }
+            {
+                _Cycle++;
+            }
             if (isOn == true)
             {
                 SafeDetectorPos = Detector.transform.position;
@@ -141,6 +150,7 @@ namespace HUDNavi
 
                     foreach (var item in Targets)
                     {
+                        if (item == null) continue;
                         if (item.isActiveAndEnabled == false)
                         {
                             if (item.RadarPoint.activeSelf == true) item.RadarPoint.SetActive(false);

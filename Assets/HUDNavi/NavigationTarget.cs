@@ -12,6 +12,7 @@ namespace HUDNavi
         [HideInInspector]
         public bool isAdded = false;
         public bool Show = true;
+        public bool _Show = true;
         public string label;
         public bool ShowDistance;
         public string TargetNavigationPointType;
@@ -24,9 +25,15 @@ namespace HUDNavi
         public bool SafeMappedHUDPointActive = false;
         [HideInInspector]
         public bool SafeMappedHUDArrowActive = false;
+        [HideInInspector]
+        public bool HierarchyActive = true;
         // Update is called once per frame
         void Update()
         {
+            if (NavigationCore.CurrentCore == null)
+            {
+                isAdded = false;
+            }
             if (isAdded == false)
             {
                 if (NavigationCore.CurrentCore != null)
@@ -38,11 +45,21 @@ namespace HUDNavi
                     }
                 }
             }
+            _Show = Show;
             if (MappedHUDPoint != null)
                 SafeMappedHUDPointActive = MappedHUDPoint.gameObject.activeSelf;
             if (MappedHUDArrow != null)
                 SafeMappedHUDArrowActive = MappedHUDArrow.gameObject.activeSelf;
             SafePos = transform.position;
+        }
+        private void OnEnable()
+        {
+            HierarchyActive = true;
+        }
+        private void OnDisable()
+        {
+            _Show = false;
+            HierarchyActive = false;
         }
         private void OnDestroy()
         {

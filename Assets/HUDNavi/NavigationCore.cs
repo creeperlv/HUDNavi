@@ -185,6 +185,10 @@ namespace HUDNavi
                                                 }
                                                 if (willShow == true)
                                                 {
+                                                    if(item.HierarchyActive == false)
+                                                    {
+                                                        willShow = false;
+                                                    }else
                                                     foreach (var CulledID in CullingIDs)
                                                     {
                                                         if (item.TargetNavigationPointType == CulledID)
@@ -194,7 +198,7 @@ namespace HUDNavi
                                                         }
                                                     }
                                                 }
-                                                if (item.Show == false || willShow == false)
+                                                if (item._Show == false || willShow == false)
                                                 {
 
                                                     {
@@ -490,7 +494,7 @@ namespace HUDNavi
                             }
                         }
                     }
-                    if (item.Show == false || willShow == false)
+                    if (item._Show == false || willShow == false)
                     {
                         if (item.MappedHUDPoint.gameObject.activeSelf == true)
                             item.MappedHUDPoint.gameObject.SetActive(false);
